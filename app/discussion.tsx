@@ -37,16 +37,18 @@ export default function DiscussionScreen() {
         <SafeAreaView style={styles.container}>
             <Text style={styles.headerTitle}>Diskusija</Text>
 
-            <View style={styles.startingPlayerBox}>
-                <User color="#FF4500" size={32} />
+            <View style={[styles.startingPlayerBox, styles.shadow]}>
+                <User color="#7C3AED" size={32} />
                 <Text style={styles.startingPlayerText}>{startingPlayerName} priča prvi!</Text>
             </View>
 
             <View style={styles.content}>
-                <Clock color="#FF4500" size={80} style={styles.icon} />
-                <Text style={styles.timer}>
-                    {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-                </Text>
+                <View style={styles.timerCircle}>
+                    <Clock color="#14B8A6" size={60} style={styles.icon} />
+                    <Text style={styles.timer}>
+                        {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                    </Text>
+                </View>
                 <Text style={styles.subtitle}>Svi govore svoju reč (ili pojam) u smeru kazaljke na satu, zatim glasate ko je Imposter!</Text>
             </View>
 
@@ -60,68 +62,96 @@ export default function DiscussionScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#121212',
+        backgroundColor: '#F3F4F6', // Light gray 100
         padding: 20,
-        alignItems: 'center',
         justifyContent: 'space-between',
     },
     headerTitle: {
-        color: '#fff',
-        fontSize: 28,
-        fontWeight: 'bold',
-        marginVertical: 10,
+        color: '#1F2937',
+        fontSize: 32,
+        fontWeight: '900',
+        textAlign: 'center',
+        marginVertical: 20,
+        letterSpacing: 0.5,
+    },
+    shadow: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 10,
+        elevation: 3,
     },
     startingPlayerBox: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: 'rgba(255, 69, 0, 0.1)',
+        justifyContent: 'center',
+        backgroundColor: '#FFFFFF',
+        padding: 20,
+        borderRadius: 16,
+        marginVertical: 10,
         borderWidth: 2,
-        borderColor: '#FF4500',
-        paddingVertical: 15,
-        paddingHorizontal: 25,
-        borderRadius: 15,
-        marginTop: 10,
+        borderColor: '#EDE9FE',
     },
     startingPlayerText: {
-        color: '#fff',
+        color: '#7C3AED',
         fontSize: 20,
-        fontWeight: 'bold',
+        fontWeight: '800',
         marginLeft: 15,
     },
     content: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width: '100%',
+    },
+    timerCircle: {
+        width: 250,
+        height: 250,
+        borderRadius: 125,
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 30,
+        shadowColor: '#14B8A6',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.15,
+        shadowRadius: 20,
+        elevation: 10,
+        borderWidth: 4,
+        borderColor: '#CCFBF1',
     },
     icon: {
-        marginBottom: 30,
+        marginBottom: 10,
     },
     timer: {
+        color: '#1F2937',
         fontSize: 64,
-        fontWeight: 'bold',
-        color: '#fff',
-        marginBottom: 20,
+        fontWeight: '900',
+        fontVariant: ['tabular-nums'],
     },
     subtitle: {
-        color: '#aaa',
-        fontSize: 16,
+        color: '#6B7280',
+        fontSize: 18,
         textAlign: 'center',
         paddingHorizontal: 20,
-        lineHeight: 24,
+        fontWeight: '500',
+        lineHeight: 26,
     },
     finishButton: {
-        backgroundColor: '#FF4500',
-        width: '100%',
-        padding: 20,
-        borderRadius: 15,
+        backgroundColor: '#EF4444', // Danger red logic
+        padding: 24,
+        borderRadius: 20,
         alignItems: 'center',
         marginBottom: 20,
+        shadowColor: '#EF4444',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        elevation: 6,
     },
     finishButtonText: {
         color: '#fff',
         fontSize: 18,
-        fontWeight: 'bold',
-        letterSpacing: 1,
-    },
+        fontWeight: '900',
+        letterSpacing: 1.5,
+    }
 });

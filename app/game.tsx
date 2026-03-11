@@ -1,6 +1,6 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, { interpolate, useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -146,7 +146,7 @@ export default function GameScreen() {
                     onPressIn={flipCardStart}
                     onPressOut={flipCardEnd}
                 >
-                    <View style={{ flex: 1 }}>
+                    <View style={styles.cardWrapper}>
                         {/* Front of Card (Hidden) */}
                         <Animated.View style={[styles.card, styles.cardFront, frontAnimatedStyle]}>
                             <Text style={styles.cardFrontText}>DRŽI DA OTKRIJEŠ</Text>
@@ -154,16 +154,22 @@ export default function GameScreen() {
                         </Animated.View>
 
                         {/* Back of Card (Revealed) */}
-                        <Animated.View style={[styles.card, styles.cardBack, backAnimatedStyle]}>
-                            <Text style={[styles.cardBackText, currentRole.role === 'imposter' && styles.imposterText]}>
+                        <Animated.View style={[
+                            styles.card,
+                            styles.cardBack,
+                            backAnimatedStyle,
+                            currentRole.role === 'imposter' ? styles.imposterCard : styles.citizenCard
+                        ]}>
+                            <Text style={styles.roleText}>
+                                {currentRole.role === 'citizen' ? 'Tvoja reč je:' : 'Uloga:'}
+                            </Text>
+                            <Text style={[styles.wordText, currentRole.role === 'imposter' && styles.imposterWord]}>
                                 {currentRole.word}
                             </Text>
-
-                            {currentRole.role === 'imposter' && (
+                            {currentRole.hint && (
                                 <View style={styles.hintBox}>
-                                    <Text style={styles.hintTitle}>Kategorija je o ovome slična:</Text>
-                                    <Text style={styles.hintWord}>{currentRole.hint}</Text>
-                                    <Text style={styles.hintSub}>Foliraj se!</Text>
+                                    <Text style={styles.hintTitle}>Pomoćna reč (slična):</Text>
+                                    <Text style={styles.hintText}>{currentRole.hint}</Text>
                                 </View>
                             )}
                         </Animated.View>
@@ -171,13 +177,15 @@ export default function GameScreen() {
                 </Pressable>
             </View>
 
-            {hasRevealed && !isFlipped ? (
-                <Pressable style={styles.nextButton} onPress={nextTurn}>
-                    <Text style={styles.nextButtonText}>DALJE</Text>
-                </Pressable>
-            ) : (
-                <View style={styles.placeholderButton} />
-            )}
+            <TouchableOpacity
+                style={[styles.nextButton, !hasRevealed && styles.nextButtonDisabled]}
+                onPress={nextTurn}
+                disabled={!hasRevealed}
+            >
+                <Text style={styles.nextButtonText}>
+                    {currentPlayer < playersCount - 1 ? 'SLEDEĆI IGRAČ' : 'ZAPOČNI DISKUSIJU'}
+                </Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -185,107 +193,141 @@ export default function GameScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#121212',
+        backgroundColor: '#F3F4F6', // Light gray 100
         padding: 20,
-        alignItems: 'center',
         justifyContent: 'space-between',
     },
     headerTitle: {
-        color: '#FF4500',
+        color: '#1F2937', // Dark gray 800
         fontSize: 32,
-        fontWeight: 'bold',
+        fontWeight: '900',
+        textAlign: 'center',
         marginVertical: 20,
-        letterSpacing: 1,
+        letterSpacing: 0.5,
     },
     cardContainer: {
-        width: width * 0.8,
-        height: width * 1.1,
-        marginVertical: 30,
-    },
-    card: {
         flex: 1,
-        borderRadius: 20,
+        marginVertical: 40,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 20,
-        elevation: 5,
+    },
+    cardWrapper: {
+        width: width * 0.85,
+        height: width * 1.1,
+        // The shadow is placed here so it doesn't rotate during the 3D flip
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+        elevation: 4,
+    },
+    card: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 24,
+        padding: 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // Moving shadow from here to cardWrapper
     },
     cardFront: {
-        backgroundColor: '#1E1E1E',
-        borderWidth: 2,
-        borderColor: '#333',
-    },
-    cardBack: {
-        backgroundColor: '#333333',
-        borderWidth: 2,
-        borderColor: '#FF4500',
+        backgroundColor: '#8B5CF6', // Soft Violet instead of Dark Blue (#7C3AED) or White
+        borderWidth: 4,
+        borderColor: '#DDD6FE', // Lighter purple border
     },
     cardFrontText: {
-        color: '#fff',
-        fontSize: 24,
-        fontWeight: 'bold',
+        color: '#FFFFFF', // White text
+        fontSize: 28,
+        fontWeight: '900',
         textAlign: 'center',
+        marginBottom: 10,
+        letterSpacing: 1,
     },
     cardFrontSubtext: {
-        color: '#FF4500',
+        color: '#EDE9FE', // Very light purple subtitle
         fontSize: 16,
-        marginTop: 20,
+        textAlign: 'center',
         fontWeight: '600',
     },
-    cardBackText: {
-        color: '#fff',
-        fontSize: 32,
-        fontWeight: 'bold',
-        textAlign: 'center',
+    cardBack: {
+        backgroundColor: '#FFFFFF',
     },
-    imposterText: {
-        color: '#FF4500',
+    citizenCard: {
+        borderWidth: 4,
+        borderColor: '#14B8A6', // Teal border for citizen
+    },
+    imposterCard: {
+        borderWidth: 4,
+        borderColor: '#EF4444', // Red border for imposter
+        backgroundColor: '#FEF2F2', // Very light red background
+    },
+    roleText: {
+        color: '#6B7280', // Gray 500
+        fontSize: 18,
+        fontWeight: '600',
+        marginBottom: 10,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
+    },
+    wordText: {
+        color: '#1F2937', // Gray 800
+        fontSize: 48,
+        fontWeight: '900',
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    imposterWord: {
+        color: '#EF4444', // Danger Red
     },
     hintBox: {
-        marginTop: 40,
-        padding: 15,
-        backgroundColor: 'rgba(255,69,0,0.1)',
-        borderRadius: 10,
-        borderWidth: 1,
-        borderColor: '#FF4500',
+        marginTop: 30,
+        padding: 20,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 16,
+        width: '100%',
         alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#FECACA', // Light red border
+        shadowColor: '#EF4444',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
+        elevation: 2,
     },
     hintTitle: {
-        color: '#fff',
+        color: '#9CA3AF', // Gray 400
         fontSize: 14,
-        marginBottom: 5,
-    },
-    hintWord: {
-        color: '#FF4500',
-        fontSize: 22,
+        marginBottom: 8,
         fontWeight: 'bold',
+        textTransform: 'uppercase',
     },
-    hintSub: {
-        color: '#aaa',
-        fontSize: 12,
-        marginTop: 5,
-        fontStyle: 'italic',
+    hintText: {
+        color: '#1F2937',
+        fontSize: 28,
+        fontWeight: '900',
+        textAlign: 'center',
     },
     nextButton: {
-        backgroundColor: '#FF4500',
-        width: '100%',
-        padding: 20,
-        borderRadius: 15,
+        backgroundColor: '#14B8A6', // Teal 500
+        padding: 24,
+        borderRadius: 20,
         alignItems: 'center',
         marginBottom: 20,
+        shadowColor: '#14B8A6',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        elevation: 6,
+    },
+    nextButtonDisabled: {
+        backgroundColor: '#D1D5DB', // Gray 300
+        shadowOpacity: 0,
+        elevation: 0,
     },
     nextButtonText: {
         color: '#fff',
         fontSize: 18,
-        fontWeight: 'bold',
-        letterSpacing: 1,
-    },
-    placeholderButton: {
-        height: 60,
-        marginBottom: 20,
-    },
+        fontWeight: '900',
+        letterSpacing: 1.5,
+    }
 });

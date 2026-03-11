@@ -16,7 +16,7 @@ export default function ResultScreen() {
             <Text style={styles.headerTitle}>Kraj Igre!</Text>
 
             <ScrollView contentContainerStyle={styles.scrollContent}>
-                <View style={styles.imposterBox}>
+                <View style={[styles.imposterBox, styles.shadow]}>
                     <Text style={styles.imposterBoxTitle}>Imposteri su bili:</Text>
                     {imposters.map(p => (
                         <Text key={p.id} style={styles.imposterName}>{p.name}</Text>
@@ -52,68 +52,76 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     headerTitle: {
-        color: '#FF4500',
+        color: '#1F2937', // Dark gray 800
         fontSize: 36,
-        fontWeight: 'bold',
+        fontWeight: '900',
+        textAlign: 'center',
         marginVertical: 20,
-        letterSpacing: 2,
+        letterSpacing: 0.5,
     },
     scrollContent: {
-        width: '100%',
+        flexGrow: 1,
+        justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 20,
+    },
+    shadow: {
+        shadowColor: '#EF4444',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.15,
+        shadowRadius: 20,
+        elevation: 10,
     },
     imposterBox: {
-        backgroundColor: '#1E1E1E',
+        backgroundColor: '#FFFFFF',
         padding: 30,
-        borderRadius: 20,
-        width: '100%',
+        borderRadius: 24,
         alignItems: 'center',
-        marginBottom: 40,
-        borderWidth: 2,
-        borderColor: '#FF4500',
+        width: '100%',
+        borderWidth: 4,
+        borderColor: '#FECACA', // Light red border
     },
     imposterBoxTitle: {
-        color: '#fff',
-        fontSize: 20,
+        color: '#6B7280', // Gray 500
+        fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 15,
+        marginBottom: 20,
+        textTransform: 'uppercase',
+        letterSpacing: 1,
     },
     imposterName: {
-        color: '#FF4500',
-        fontSize: 28,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    wordTitle: {
-        color: '#aaa',
-        fontSize: 18,
+        color: '#EF4444', // Danger Red
+        fontSize: 42,
+        fontWeight: '900',
         marginBottom: 10,
-    },
-    secretWord: {
-        color: '#fff',
-        fontSize: 32,
-        fontWeight: 'bold',
-        letterSpacing: 1,
+        textAlign: 'center',
     },
     buttonContainer: {
         width: '100%',
-        paddingBottom: 20,
+        marginTop: 20,
     },
     button: {
-        backgroundColor: '#FF4500',
-        padding: 20,
-        borderRadius: 15,
+        backgroundColor: '#7C3AED', // Indigo
+        padding: 24,
+        borderRadius: 20,
         alignItems: 'center',
         marginBottom: 15,
+        shadowColor: '#7C3AED',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        elevation: 6,
     },
     secondaryButton: {
-        backgroundColor: '#333333',
+        backgroundColor: '#F3F4F6', // Blend with bg
+        borderWidth: 2,
+        borderColor: '#D1D5DB', // Gray 300
+        shadowOpacity: 0,
+        elevation: 0,
     },
     buttonText: {
-        color: '#FFFFFF',
+        color: '#fff',
         fontSize: 18,
-        fontWeight: 'bold',
-        letterSpacing: 1,
-    },
+        fontWeight: '900',
+        letterSpacing: 1.5,
+    }
 });

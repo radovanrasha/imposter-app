@@ -141,9 +141,9 @@ export default function SetupScreen() {
             <ScrollView contentContainerStyle={styles.scrollContent}>
 
                 {/* PLAYERS */}
-                <View style={styles.settingCard}>
+                <View style={[styles.settingCard, styles.shadow]}>
                     <View style={styles.settingHeader}>
-                        <Users color="#fff" size={24} />
+                        <Users color="#7C3AED" size={24} />
                         <Text style={styles.settingTitle}>Igrači ({players.length})</Text>
                     </View>
 
@@ -155,7 +155,7 @@ export default function SetupScreen() {
                                     value={name}
                                     onChangeText={(text) => updatePlayerName(text, index)}
                                     placeholder={`Igrač ${index + 1}`}
-                                    placeholderTextColor="#666"
+                                    placeholderTextColor="#9CA3AF"
                                     maxLength={20}
                                 />
                                 {players.length > 3 && (
@@ -163,7 +163,7 @@ export default function SetupScreen() {
                                         style={styles.deletePlayerBtn}
                                         onPress={() => removePlayer(index)}
                                     >
-                                        <Trash2 color="#FF4500" size={20} />
+                                        <Trash2 color="#EF4444" size={20} />
                                     </TouchableOpacity>
                                 )}
                             </View>
@@ -172,16 +172,16 @@ export default function SetupScreen() {
 
                     {players.length < 20 && (
                         <TouchableOpacity style={styles.addPlayerBtn} onPress={addPlayer}>
-                            <Plus color="#fff" size={20} />
+                            <Plus color="#7C3AED" size={20} />
                             <Text style={styles.addPlayerText}>Dodaj Igrača</Text>
                         </TouchableOpacity>
                     )}
                 </View>
 
                 {/* IMPOSTERS */}
-                <View style={styles.settingCard}>
+                <View style={[styles.settingCard, styles.shadow]}>
                     <View style={styles.settingHeader}>
-                        <UserX color="#FF4500" size={24} />
+                        <UserX color="#EF4444" size={24} />
                         <Text style={styles.settingTitle}>Broj Impostera</Text>
                     </View>
                     <View style={styles.controls}>
@@ -196,9 +196,9 @@ export default function SetupScreen() {
                 </View>
 
                 {/* BASES */}
-                <View style={styles.settingCard}>
+                <View style={[styles.settingCard, styles.shadow]}>
                     <View style={styles.settingHeader}>
-                        <Database color="#fff" size={24} />
+                        <Database color="#14B8A6" size={24} />
                         <Text style={styles.settingTitle}>Težina (Baze pojmova)</Text>
                     </View>
                     <View style={styles.categories}>
@@ -218,9 +218,9 @@ export default function SetupScreen() {
                 </View>
 
                 {/* CATEGORY */}
-                <View style={styles.settingCard}>
+                <View style={[styles.settingCard, styles.shadow]}>
                     <View style={styles.settingHeader}>
-                        <BookOpen color="#fff" size={24} />
+                        <BookOpen color="#F59E0B" size={24} />
                         <Text style={styles.settingTitle}>Kategorije</Text>
                     </View>
 
@@ -228,7 +228,7 @@ export default function SetupScreen() {
                         style={styles.selectAllBtn}
                         onPress={selectAllCategories}
                     >
-                        <CheckSquare color={selectedCategories.length === CATEGORIES.length ? "#FF4500" : "#fff"} size={20} />
+                        <CheckSquare color={selectedCategories.length === CATEGORIES.length ? "#14B8A6" : "#9CA3AF"} size={20} />
                         <Text style={styles.selectAllText}>
                             {selectedCategories.length === CATEGORIES.length ? "Deselektuj Sve" : "Izaberi Sve"}
                         </Text>
@@ -251,15 +251,14 @@ export default function SetupScreen() {
                 </View>
 
                 {/* SHOW WORD SETTING */}
-                <View style={styles.settingCard}>
+                <View style={[styles.settingCard, styles.shadow]}>
                     <TouchableOpacity
                         style={styles.checkboxRow}
                         onPress={() => setShowWordToImposter(!showWordToImposter)}
                     >
-                        <CheckSquare
-                            color={showWordToImposter ? "#FF4500" : "#fff"}
-                            size={24}
-                        />
+                        <View style={[styles.checkboxOutline, showWordToImposter && styles.checkboxActive]}>
+                            {showWordToImposter && <CheckSquare color="#fff" size={20} />}
+                        </View>
                         <View style={styles.checkboxTextContainer}>
                             <Text style={styles.settingTitle}>Prikaži reč impostoru</Text>
                             <Text style={styles.settingSubtitle}>Na kraju igre prikaži koja je bila reč</Text>
@@ -279,23 +278,32 @@ export default function SetupScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#121212',
+        backgroundColor: '#F3F4F6', // Light gray background
     },
     headerTitle: {
-        color: '#fff',
-        fontSize: 24,
-        fontWeight: 'bold',
+        color: '#1F2937', // Dark gray
+        fontSize: 28,
+        fontWeight: '900',
         textAlign: 'center',
         marginVertical: 20,
+        letterSpacing: 0.5,
     },
     scrollContent: {
         padding: 20,
+        paddingBottom: 40,
     },
     settingCard: {
-        backgroundColor: '#1E1E1E',
-        borderRadius: 15,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 20,
         padding: 20,
         marginBottom: 20,
+    },
+    shadow: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 8,
+        elevation: 2,
     },
     settingHeader: {
         flexDirection: 'row',
@@ -303,7 +311,7 @@ const styles = StyleSheet.create({
         marginBottom: 15,
     },
     settingTitle: {
-        color: '#fff',
+        color: '#1F2937',
         fontSize: 18,
         fontWeight: 'bold',
         marginLeft: 10,
@@ -318,17 +326,20 @@ const styles = StyleSheet.create({
     },
     playerInput: {
         flex: 1,
-        backgroundColor: '#333',
-        color: '#fff',
+        backgroundColor: '#F9FAFB',
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
+        color: '#1F2937',
         padding: 15,
-        borderRadius: 10,
+        borderRadius: 12,
         fontSize: 16,
+        fontWeight: '500',
     },
     deletePlayerBtn: {
         padding: 15,
         marginLeft: 10,
-        backgroundColor: '#333',
-        borderRadius: 10,
+        backgroundColor: '#FEE2E2', // Light red bg
+        borderRadius: 12,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -336,39 +347,45 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#444',
+        backgroundColor: '#F3E8FF', // Light purple bg
         padding: 15,
-        borderRadius: 10,
+        borderRadius: 12,
         marginTop: 5,
+        borderWidth: 1,
+        borderColor: '#E9D5FF',
     },
     addPlayerText: {
-        color: '#fff',
+        color: '#7C3AED',
         marginLeft: 10,
-        fontWeight: 'bold',
+        fontWeight: '700',
         fontSize: 16,
     },
     controls: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        paddingHorizontal: 10,
     },
     controlBtn: {
-        backgroundColor: '#333',
+        backgroundColor: '#F3F4F6',
         width: 50,
         height: 50,
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
     },
     controlBtnText: {
-        color: '#fff',
+        color: '#1F2937',
         fontSize: 24,
         fontWeight: 'bold',
+        lineHeight: 28,
     },
     valueText: {
-        color: '#fff',
-        fontSize: 28,
-        fontWeight: 'bold',
+        color: '#1F2937',
+        fontSize: 32,
+        fontWeight: '900',
     },
     categories: {
         flexDirection: 'row',
@@ -376,17 +393,20 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     categoryBtn: {
-        backgroundColor: '#333',
+        backgroundColor: '#F3F4F6',
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
         paddingVertical: 10,
-        paddingHorizontal: 15,
+        paddingHorizontal: 16,
         borderRadius: 20,
     },
     categoryBtnActive: {
-        backgroundColor: '#FF4500',
+        backgroundColor: '#14B8A6',
+        borderColor: '#14B8A6',
     },
     categoryText: {
-        color: '#aaa',
-        fontWeight: 'bold',
+        color: '#6B7280',
+        fontWeight: '600',
     },
     categoryTextActive: {
         color: '#fff',
@@ -395,39 +415,61 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 15,
-        padding: 10,
-        backgroundColor: '#333',
-        borderRadius: 10,
+        padding: 12,
+        backgroundColor: '#F9FAFB',
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
+        borderRadius: 12,
         alignSelf: 'flex-start',
     },
     selectAllText: {
-        color: '#fff',
+        color: '#4B5563',
         marginLeft: 10,
         fontWeight: 'bold',
     },
     startButton: {
-        backgroundColor: '#FF4500',
+        backgroundColor: '#7C3AED',
         margin: 20,
         padding: 20,
-        borderRadius: 15,
+        borderRadius: 16,
         alignItems: 'center',
+        shadowColor: '#7C3AED',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 5,
     },
     startButtonText: {
         color: '#fff',
         fontSize: 18,
-        fontWeight: 'bold',
+        fontWeight: '900',
         letterSpacing: 1,
     },
     checkboxRow: {
         flexDirection: 'row',
         alignItems: 'center',
     },
+    checkboxOutline: {
+        width: 26,
+        height: 26,
+        borderRadius: 6,
+        borderWidth: 2,
+        borderColor: '#D1D5DB',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F9FAFB',
+    },
+    checkboxActive: {
+        backgroundColor: '#14B8A6',
+        borderColor: '#14B8A6',
+    },
     checkboxTextContainer: {
-        marginLeft: 10,
+        marginLeft: 12,
+        flex: 1,
     },
     settingSubtitle: {
-        color: '#aaa',
-        fontSize: 12,
+        color: '#6B7280',
+        fontSize: 13,
         marginTop: 2,
     },
 });

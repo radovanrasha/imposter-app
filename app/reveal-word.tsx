@@ -16,8 +16,8 @@ export default function RevealWordScreen() {
     const renderContent = () => {
         if (showWordToImposter) {
             return (
-                <View style={styles.content}>
-                    <Eye color="#FF4500" size={80} style={styles.icon} />
+                <View style={[styles.content, styles.shadow]}>
+                    <Eye color="#7C3AED" size={80} style={styles.icon} />
                     <Text style={styles.title}>Zadata reč je bila:</Text>
                     <Text style={styles.word}>{secretWord}</Text>
                     <Text style={styles.subtitle}>Sada svi znaju reč! Ko se loše branio?</Text>
@@ -26,8 +26,8 @@ export default function RevealWordScreen() {
         }
 
         return (
-            <View style={styles.content}>
-                <EyeOff color="#FF4500" size={80} style={styles.icon} />
+            <View style={[styles.content, styles.shadow]}>
+                <EyeOff color="#9CA3AF" size={80} style={styles.icon} />
                 <Text style={styles.title}>Reč ostaje tajna!</Text>
                 <Text style={styles.subtitle}>(Niste izabrali opciju za otkrivanje)</Text>
             </View>
@@ -56,57 +56,78 @@ export default function RevealWordScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#121212',
+        backgroundColor: '#F3F4F6', // Light gray 100
         padding: 20,
         justifyContent: 'space-between',
     },
     headerTitle: {
-        color: '#FF4500',
+        color: '#1F2937', // Dark gray 800
         fontSize: 32,
-        fontWeight: 'bold',
+        fontWeight: '900',
         textAlign: 'center',
         marginVertical: 20,
+        letterSpacing: 0.5,
+    },
+    shadow: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.1,
+        shadowRadius: 20,
+        elevation: 8,
     },
     content: {
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 24,
+        marginVertical: 20,
+        padding: 30,
+        borderWidth: 1,
+        borderColor: '#E5E7EB',
     },
     icon: {
         marginBottom: 20,
     },
     title: {
-        color: '#fff',
-        fontSize: 24,
+        color: '#6B7280', // Gray 500
+        fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 15,
         textAlign: 'center',
+        textTransform: 'uppercase',
     },
     word: {
-        color: '#FF4500',
+        color: '#7C3AED', // Vibrant Indigo
         fontSize: 48,
-        fontWeight: 'bold',
+        fontWeight: '900',
         marginBottom: 20,
         textAlign: 'center',
     },
     subtitle: {
-        color: '#aaa',
-        fontSize: 16,
+        color: '#9CA3AF', // Gray 400
+        fontSize: 18,
         textAlign: 'center',
-        paddingHorizontal: 20,
+        paddingHorizontal: 10,
         marginTop: 10,
+        fontWeight: '500',
     },
     nextButton: {
-        backgroundColor: '#FF4500',
-        padding: 20,
-        borderRadius: 15,
+        backgroundColor: '#14B8A6', // Teal 500
+        padding: 24,
+        borderRadius: 20,
         alignItems: 'center',
         marginBottom: 20,
+        shadowColor: '#14B8A6',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        elevation: 6,
     },
     nextButtonText: {
         color: '#fff',
         fontSize: 18,
-        fontWeight: 'bold',
-        letterSpacing: 1,
+        fontWeight: '900',
+        letterSpacing: 1.5,
     }
 });
