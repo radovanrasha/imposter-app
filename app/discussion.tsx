@@ -22,7 +22,7 @@ export default function DiscussionScreen() {
 
     const finishDiscussion = () => {
         router.replace({
-            pathname: '/reveal-word',
+            pathname: '/voting',
             params: {
                 playersData,
                 showWordToImposter: showWordToImposter ? 'true' : 'false'
@@ -53,7 +53,7 @@ export default function DiscussionScreen() {
             </View>
 
             <TouchableOpacity style={styles.finishButton} onPress={finishDiscussion}>
-                <Text style={styles.finishButtonText}>ZAVRŠI GLASANJE</Text>
+                <Text style={styles.finishButtonText}>PREĐI NA GLASANJE</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );
