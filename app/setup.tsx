@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
-import { BookOpen, CheckSquare, Database, Plus, Trash2, Users, UserX } from 'lucide-react-native';
+import { BookOpen, CheckSquare, Plus, Trash2, Users, UserX } from 'lucide-react-native';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -195,27 +195,7 @@ export default function SetupScreen() {
                     </View>
                 </View>
 
-                {/* BASES */}
-                <View style={[styles.settingCard, styles.shadow]}>
-                    <View style={styles.settingHeader}>
-                        <Database color="#14B8A6" size={24} />
-                        <Text style={styles.settingTitle}>Težina (Baze pojmova)</Text>
-                    </View>
-                    <View style={styles.categories}>
-                        {BASES.map(baza => {
-                            const isActive = selectedBases.includes(baza.id);
-                            return (
-                                <TouchableOpacity
-                                    key={baza.id}
-                                    style={[styles.categoryBtn, isActive && styles.categoryBtnActive]}
-                                    onPress={() => toggleBase(baza.id)}
-                                >
-                                    <Text style={[styles.categoryText, isActive && styles.categoryTextActive]}>{baza.label}</Text>
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </View>
-                </View>
+                {/* BASES - Hidden from UI, defaults to 'easy' which contains all words */}
 
                 {/* CATEGORY */}
                 <View style={[styles.settingCard, styles.shadow]}>

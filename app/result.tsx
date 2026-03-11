@@ -132,17 +132,17 @@ const styles = StyleSheet.create({
         elevation: 8,
     },
     infoBox: {
-        backgroundColor: '#374151', // Gray 700
+        backgroundColor: '#FFFFFF',
         padding: 30,
         borderRadius: 24,
         alignItems: 'center',
         width: '100%',
         borderWidth: 1,
-        borderColor: '#4B5563', // Gray 600
+        borderColor: '#E5E7EB',
         marginBottom: 20,
     },
     infoTitle: {
-        color: '#9CA3AF', // Gray 400
+        color: '#6B7280',
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 10,
@@ -150,14 +150,14 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
     },
     votedName: {
-        color: '#F9FAFB', // White
+        color: '#1F2937',
         fontSize: 36,
         fontWeight: '900',
         marginBottom: 5,
         textAlign: 'center',
     },
     voteCount: {
-        color: '#D1D5DB', // Gray 300
+        color: '#9CA3AF',
         fontSize: 16,
         fontWeight: '600',
     },
@@ -179,14 +179,14 @@ const styles = StyleSheet.create({
     winnerTitle: {
         fontSize: 28,
         fontWeight: '900',
-        color: '#F9FAFB', // White
+        color: '#1F2937',
         textAlign: 'center',
         marginBottom: 10,
     },
     winnerSubtext: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#D1D5DB', // Gray 300
+        color: '#4B5563',
         textAlign: 'center',
         marginBottom: 20,
     },
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
         borderTopColor: '#D1D5DB',
     },
     revealAllTitle: {
-        color: '#9CA3AF', // Gray 400
+        color: '#6B7280',
         fontSize: 14,
         fontWeight: 'bold',
         textTransform: 'uppercase',
