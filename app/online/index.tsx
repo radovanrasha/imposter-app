@@ -22,8 +22,9 @@ export default function OnlineIndexScreen() {
             connect(data.room_code, data.player_id, true);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             router.push('/online/lobby' as any);
-        } catch {
-            Alert.alert('Greška', 'Nije moguće kreirati sobu');
+        } catch (err: any) {
+            const detail = err?.response?.data?.error ?? err?.message ?? 'nepoznata greška';
+            Alert.alert('Greška', `Nije moguće kreirati sobu\n${detail}`);
         } finally {
             setLoading(false);
         }

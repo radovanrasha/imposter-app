@@ -28,5 +28,3 @@ jobs:
 
       - name: Run EAS build
         run: eas build --platform android --profile preview --non-interactive
-        env:
-          EXPO_PUBLIC_API_HOST: imposter-api.radovanrasha.com
