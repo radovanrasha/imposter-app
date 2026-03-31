@@ -18,6 +18,7 @@ export default function SetupScreen() {
     const router = useRouter();
     const [players, setPlayers] = useState<string[]>(["Igrač 1", "Igrač 2", "Igrač 3"]);
     const [imposters, setImposters] = useState(1);
+    const [unknownImposters, setUnknownImposters] = useState(false);
     const [selectedCategories, setSelectedCategories] = useState<string[]>([CATEGORIES[0]]);
     const [selectedBases, setSelectedBases] = useState<string[]>(['easy']);
     const [showWordToImposter, setShowWordToImposter] = useState(false);
@@ -30,6 +31,7 @@ export default function SetupScreen() {
                     const parsed = JSON.parse(savedSettings);
                     if (parsed.players) setPlayers(parsed.players);
                     if (parsed.imposters) setImposters(parsed.imposters);
+                    if (parsed.unknownImposters !== undefined) setUnknownImposters(parsed.unknownImposters);
                     if (parsed.selectedCategories) setSelectedCategories(parsed.selectedCategories);
                     if (parsed.selectedBases) setSelectedBases(parsed.selectedBases);
                     if (parsed.showWordToImposter !== undefined) setShowWordToImposter(parsed.showWordToImposter);
@@ -61,6 +63,7 @@ export default function SetupScreen() {
         const settingsToSave = {
             players,
             imposters,
+            unknownImposters,
             selectedCategories,
             selectedBases,
             showWordToImposter
@@ -78,6 +81,7 @@ export default function SetupScreen() {
             params: {
                 players: JSON.stringify(players),
                 imposters,
+                unknownImposters: unknownImposters ? 'true' : 'false',
                 categories: JSON.stringify(selectedCategories),
                 bases: JSON.stringify(selectedBases),
                 showWordToImposter: showWordToImposter ? 'true' : 'false'
@@ -184,15 +188,27 @@ export default function SetupScreen() {
                         <UserX color="#EF4444" size={24} />
                         <Text style={styles.settingTitle}>Broj Impostera</Text>
                     </View>
-                    <View style={styles.controls}>
-                        <TouchableOpacity style={styles.controlBtn} onPress={decreaseImposters}>
+                    <View style={[styles.controls, unknownImposters && styles.controlsDisabled]}>
+                        <TouchableOpacity style={styles.controlBtn} onPress={decreaseImposters} disabled={unknownImposters}>
                             <Text style={styles.controlBtnText}>-</Text>
                         </TouchableOpacity>
                         <Text style={styles.valueText}>{imposters}</Text>
-                        <TouchableOpacity style={styles.controlBtn} onPress={increaseImposters}>
+                        <TouchableOpacity style={styles.controlBtn} onPress={increaseImposters} disabled={unknownImposters}>
                             <Text style={styles.controlBtnText}>+</Text>
                         </TouchableOpacity>
                     </View>
+                    <TouchableOpacity
+                        style={[styles.checkboxRow, { marginTop: 16 }]}
+                        onPress={() => setUnknownImposters(!unknownImposters)}
+                    >
+                        <View style={[styles.checkboxOutline, unknownImposters && styles.checkboxActive]}>
+                            {unknownImposters && <CheckSquare color="#fff" size={20} />}
+                        </View>
+                        <View style={styles.checkboxTextContainer}>
+                            <Text style={styles.settingTitle}>Nepoznat broj impostera</Text>
+                            <Text style={styles.settingSubtitle}>Niko ne zna koliko ih ima do kraja igre</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
                 {/* BASES - Hidden from UI, defaults to 'easy' which contains all words */}
@@ -345,6 +361,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 10,
+    },
+    controlsDisabled: {
+        opacity: 0.3,
     },
     controlBtn: {
         backgroundColor: '#F3F4F6',

@@ -1,16 +1,12 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useScore } from './ScoreContext';
 
 type PlayerData = { id: number; name: string; role: 'citizen' | 'imposter'; word: string };
 
 export default function ResultScreen() {
     const router = useRouter();
     const params = useLocalSearchParams();
-    const { addScore } = useScore();
-
     const playersData: PlayerData[] = params.playersData ? JSON.parse(params.playersData as string) : [];
     const votesData: Record<string, number> = params.votesData ? JSON.parse(params.votesData as string) : {};
 
@@ -32,19 +28,6 @@ export default function ResultScreen() {
 
     const votedOutPlayer = playersData.find(p => p.name === votedOutPlayerName);
     const wasImpostorVotedOut = votedOutPlayer?.role === 'imposter';
-
-    useEffect(() => {
-        // Apply scores instantly on mount
-        if (wasImpostorVotedOut) {
-            // Players (Citizens) Win
-            const citizenNames = playersData.filter(p => p.role === 'citizen').map(c => c.name);
-            addScore(citizenNames);
-        } else {
-            // Imposter Wins
-            const imposterNames = playersData.filter(p => p.role === 'imposter').map(i => i.name);
-            addScore(imposterNames);
-        }
-    }, []);
 
     return (
         <SafeAreaView style={styles.container}>

@@ -23,7 +23,10 @@ export default function GameScreen() {
 
     const playersNames: string[] = params.players ? JSON.parse(params.players as string) : ["Igrač 1", "Igrač 2", "Igrač 3"];
     const playersCount = playersNames.length;
-    const impostersCount = Number(params.imposters) || 1;
+    const unknownImposters = params.unknownImposters === 'true';
+    const impostersCount = unknownImposters
+        ? Math.floor(Math.random() * Math.floor(playersCount / 3)) + 1
+        : Number(params.imposters) || 1;
     const categories: string[] = params.categories ? JSON.parse(params.categories as string) : ["Životinje"];
     const bases: string[] = params.bases ? JSON.parse(params.bases as string) : ["easy"];
     const showWordToImposter = params.showWordToImposter === 'true';
